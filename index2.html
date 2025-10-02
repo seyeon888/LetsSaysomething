@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Nanum+Myeongjo&family=Noto+Sans+KR:wght@100..900&family=Noto+Serif+KR:wght@200..900&family=Song+Myung&display=swap" rel="stylesheet">
+
+	<style>
+		body{margin:0; padding:0;}
+		.word{position:absolute;}
+
+		.center-spacing{text-align: center; justify-content: center; align-items: center;}
+		.full-image{width: 100%; height:auto; display: block; object-fit: contain; margin: auto;}
+		
+		.button-wrap{text-align: center; margin:20px;}
+		button{padding:10px 20px; font-size:16px; cursor:pointer; margin:5px;}
+	</style>
+
+	<title>대사를 넣어보아요</title>
+</head>
+<body>
+
+	<div class="button-wrap">
+		<button onclick="loadRandomPage()">다른 페이지</button>
+		<button onclick="resetWords()">리셋</button>
+	</div>
+
+	<img id="mainImage" class="center-spacing full-image" src="tapioka_1.jpg" style="width:1500px;">
+
+<script>
+	const pages = [
+		{
+			img: "tapioka_1.jpg",
+			text: "타피오카한테 눈썹 그린 사람, 혹은 거기 가담한 사람",
+			style: "font-family:'Noto Serif KR', serif; font-size:14px; font-weight:600; color:black;"
+		},
+		{
+			img: "tapioka_2.jpg",
+			text: "난 드래곤도 좋아하긴 하지만... 진짜 '드래곤 마니아'들을 보면... 내 어중간함에 신물이 나...!",
+			style: "font-family:'Amatic SC'; font-size:16px; font-weight:bold; "
+		},
+
+		{
+			img: "tapioka_3.jpg",
+			text: "암흑의 황야에! 나아갈 길을 뚫는 것이다!",
+			style: "font-family:'Noto Serif KR', serif; font-size:16px; font-weight:700; color:black;"
+		},
+		
+		{
+			img: "tapioka_4.jpg",
+			text: "각오는 되어 있나? 나는 되어 있다.",
+			style: "font-family:'Nanum Myeongjo', serif; font-size:23px; font-weight:700; "
+		},
+
+		{
+			img: "tapioka_5.jpg",
+			text: "전 L 입니다.",
+			style: "font-family:'Noto Sans KR', serif; font-size:23px; font-weight:500; "
+		}
+	];
+
+	let currentIndex = 0; 
+	let lyrics = pages[currentIndex].text.split(" ");
+	let i = 0;
+
+	function loadRandomPage(){
+		resetWords();
+		i = 0;
+		let randomIndex;
+		do{
+			randomIndex = Math.floor(Math.random() * pages.length);
+		} while(randomIndex === currentIndex); 
+
+		currentIndex = randomIndex;
+		document.getElementById("mainImage").src = pages[currentIndex].img;
+		lyrics = pages[currentIndex].text.split(" ");
+	}
+
+	function resetWords(){
+		document.querySelectorAll(".word").forEach(el => el.remove());
+		i = 0;
+	}
+
+	window.onclick = function(e){
+		if(e.target.tagName === "BUTTON") return;
+		document.body.innerHTML += `<div class="word" style="left:${e.clientX}px; top:${e.clientY}px; ${pages[currentIndex].style}">${lyrics[i]}</div>`;
+		i = (i+1) % lyrics.length;
+
+		
+	}
+</script>
+</body>
+</html>
